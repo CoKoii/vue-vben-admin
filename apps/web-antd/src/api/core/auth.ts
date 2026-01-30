@@ -5,6 +5,8 @@ export namespace AuthApi {
   export interface LoginParams {
     password?: string;
     username?: string;
+    confirmPassword?: string;
+    agreePolicy?: string;
   }
 
   /** 登录接口返回值 */
@@ -48,4 +50,8 @@ export async function logoutApi() {
  */
 export async function getAccessCodesApi() {
   return requestClient.get<string[]>('/auth/codes');
+}
+
+export async function registerApi(data: AuthApi.LoginParams) {
+  return requestClient.post<AuthApi.LoginResult>('/auth/register', data);
 }
