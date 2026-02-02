@@ -43,15 +43,10 @@ const [Grid, gridApi] = useVbenVxeGrid({
 
 const handleCreate = () => roleFormRef.value?.open();
 const handleEdit = (row: any) => roleFormRef.value?.open(row);
-const handleSubmit = async (values: any, callback: any) => {
-  try {
-    await (values.id ? updateRole(values.id, values) : createRole(values));
-    message.success(values.id ? '更新成功' : '创建成功');
-    await gridApi.grid?.commitProxy('query');
-    callback.success();
-  } catch {
-    callback.error();
-  }
+const handleSubmit = async (values: any) => {
+  await (values.id ? updateRole(values.id, values) : createRole(values));
+  message.success(values.id ? '更新成功' : '创建成功');
+  await gridApi.grid?.commitProxy('query');
 };
 const handleDelete = (row: any) => {
   Modal.confirm({
@@ -88,6 +83,6 @@ const handleDelete = (row: any) => {
         </Button>
       </template>
     </Grid>
-    <RoleForm ref="roleFormRef" @submit="handleSubmit" />
+    <RoleForm ref="roleFormRef" :on-submit="handleSubmit" />
   </Page>
 </template>
