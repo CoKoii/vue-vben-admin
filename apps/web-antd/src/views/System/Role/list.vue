@@ -7,7 +7,12 @@ import { Plus } from '@vben/icons';
 import { Button, message, Modal } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { createRole, getAllRoles, updateRole } from '#/api/core/system';
+import {
+  createRole,
+  deleteRole,
+  getAllRoles,
+  updateRole,
+} from '#/api/core/system';
 
 import { useColumns, useGridFormSchema } from './data';
 import RoleForm from './modules/form.vue';
@@ -51,17 +56,13 @@ const handleSubmit = async (values: any) => {
 const handleDelete = (row: any) => {
   Modal.confirm({
     title: '确认删除',
-    content: `确定要删除角色 "${row.name}" 吗？`,
+    content: `确定要删除角色 "${row.roleName}" 吗？`,
     okText: '确定',
     cancelText: '取消',
     onOk: async () => {
-      try {
-        // TODO: 调用删除 API - await deleteRole(row.id);
-        message.success('删除成功');
-        await gridApi.grid?.commitProxy('query');
-      } catch {
-        message.error('删除失败');
-      }
+      await deleteRole(row.id);
+      message.success('删除成功');
+      await gridApi.grid?.commitProxy('query');
     },
   });
 };
