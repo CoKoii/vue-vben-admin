@@ -44,13 +44,9 @@ const [Grid, gridApi] = useVbenVxeGrid({
 const handleCreate = () => roleFormRef.value?.open();
 const handleEdit = (row: any) => roleFormRef.value?.open(row);
 const handleSubmit = async (values: any) => {
-  try {
-    await (values.id ? updateRole(values.id, values) : createRole(values));
-    message.success(values.id ? '更新成功' : '创建成功');
-    await gridApi.grid?.commitProxy('query');
-  } catch {
-    message.error('操作失败');
-  }
+  await (values.id ? updateRole(values.id, values) : createRole(values));
+  message.success(values.id ? '更新成功' : '创建成功');
+  await gridApi.grid?.commitProxy('query');
 };
 const handleDelete = (row: any) => {
   Modal.confirm({
