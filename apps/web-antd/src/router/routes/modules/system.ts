@@ -13,7 +13,7 @@ const routes: RouteRecordRaw[] = [
       {
         name: 'Role',
         path: '/role',
-        component: () => import('#/views/dashboard/analytics/index.vue'),
+        component: () => import('#/views/System/Role/list.vue'),
         meta: {
           affixTab: true,
           icon: 'lucide:area-chart',
@@ -23,7 +23,7 @@ const routes: RouteRecordRaw[] = [
       {
         name: 'User',
         path: '/user',
-        component: () => import('#/views/System/user/list.vue'),
+        component: () => import('#/views/System/User/list.vue'),
         meta: {
           icon: 'carbon:workspace',
           title: '用户管理',

@@ -17,12 +17,5 @@ export function useColumns(): VxeTableGridOptions['columns'] {
     { type: 'checkbox', width: 50, align: 'center' },
     { field: 'username', title: '用户名称' },
     { field: 'password', title: '用户密码' },
-    {
-      title: '操作',
-      width: 150,
-      align: 'center',
-      fixed: 'right',
-      slots: { default: 'action' },
-    },
   ];
 }
