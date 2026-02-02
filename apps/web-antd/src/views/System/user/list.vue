@@ -4,7 +4,7 @@ import { ref } from 'vue';
 import { Page } from '@vben/common-ui';
 import { Plus } from '@vben/icons';
 
-import { Button, message, Modal } from 'ant-design-vue';
+import { Button, message, Modal, Tag } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { registerApi, updateUserApi } from '#/api';
@@ -43,7 +43,13 @@ const [Grid, gridApi] = useVbenVxeGrid({
 });
 
 const handleCreate = () => userFormRef.value?.open();
-const handleEdit = (row: any) => userFormRef.value?.open(row);
+const handleEdit = (row: any) => {
+  const formData = {
+    ...row,
+    roles: row.roles?.map((role: any) => role.id) || [],
+  };
+  userFormRef.value?.open(formData);
+};
 const handleSubmit = async (values: any) => {
   await (values.id ? updateUserApi(values.id, values) : registerApi(values));
   message.success(values.id ? '更新成功' : '创建成功');
@@ -72,6 +78,17 @@ const handleDelete = (row: any) => {
           <Plus class="size-5" />
           新建用户
         </Button>
+      </template>
+      <template #roles="{ row }">
+        <Tag
+          v-for="role in row.roles"
+          style="margin-bottom: 0"
+          :key="role"
+          class="mb-2 mr-2"
+          color="blue"
+        >
+          {{ role.roleName }}
+        </Tag>
       </template>
       <template #action="{ row }">
         <Button type="link" size="small" @click="handleEdit(row)">编辑</Button>

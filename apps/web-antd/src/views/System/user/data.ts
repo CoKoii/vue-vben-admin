@@ -41,7 +41,7 @@ export function useFormSchema(): VbenFormSchema[] {
           option.label.toLowerCase().includes(input.toLowerCase()),
         mode: 'multiple',
       },
-      fieldName: 'role',
+      fieldName: 'roles',
       label: '用户角色',
       rules: 'required',
     },
@@ -62,6 +62,11 @@ export function useColumns(): VxeTableGridOptions['columns'] {
     { type: 'checkbox', width: 50, align: 'center' },
     { field: 'username', title: '用户名称' },
     { field: 'password', title: '用户密码' },
+    {
+      field: 'roles',
+      title: '用户角色',
+      slots: { default: 'roles' },
+    },
     {
       title: '操作',
       width: 150,
