@@ -52,6 +52,9 @@ export async function getAccessCodesApi() {
   return requestClient.get<string[]>('/auth/codes');
 }
 
+/**
+ * 注册
+ */
 export async function registerApi(data: AuthApi.LoginParams) {
   return requestClient.post<AuthApi.LoginResult>('/auth/register', data);
 }

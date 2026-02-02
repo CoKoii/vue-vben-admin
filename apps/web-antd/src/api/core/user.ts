@@ -8,3 +8,10 @@ import { requestClient } from '#/api/request';
 export async function getUserInfoApi() {
   return requestClient.get<UserInfo>('/profile');
 }
+
+/**
+ * 修改用户信息
+ */
+export async function updateUserApi(id: number, data: any) {
+  return requestClient.put(`/user/${id}`, data);
+}
