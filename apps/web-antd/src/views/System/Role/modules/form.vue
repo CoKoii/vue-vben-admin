@@ -8,7 +8,7 @@ import { useVbenForm } from '#/adapter/form';
 import { useFormSchema } from '../data';
 
 const emits = defineEmits<{
-  submit: [values: any];
+  submit: [values: any, callback: { error: () => void; success: () => void }];
 }>();
 const isEdit = ref(false);
 const editData = ref<any>(null);
@@ -28,8 +28,19 @@ const [Modal, modalApi] = useVbenModal({
     const { valid } = await formApi.validate();
     if (!valid) return;
     const values = await formApi.getValues();
-    emits('submit', { ...values, id: editData.value?.id });
-    modalApi.close();
+    modalApi.lock();
+    emits(
+      'submit',
+      { ...values, id: editData.value?.id },
+      {
+        success: () => {
+          modalApi.close();
+        },
+        error: () => {
+          modalApi.unlock();
+        },
+      },
+    );
   },
   async onOpenChange(isOpen) {
     if (!isOpen) return;
