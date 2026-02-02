@@ -4,23 +4,16 @@ import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 
 import { Page } from '@vben/common-ui';
 
-import { message } from 'ant-design-vue';
-
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { getAllUsers } from '#/api/core/system';
 
 import { searchFormSchema, tableColumns } from './config';
 
 const formOptions: VbenFormProps = {
-  // 默认展开
-  collapsed: false,
   fieldMappingTime: [['date', ['start', 'end']]],
   schema: searchFormSchema,
-  // 控制表单是否显示折叠按钮
-  showCollapseButton: true,
-  // 是否在字段值改变时提交表单
   submitOnChange: true,
-  // 按下回车时是否提交表单
-  submitOnEnter: false,
+  submitOnEnter: true,
 };
 
 const gridOptions: VxeTableGridOptions = {
@@ -36,12 +29,11 @@ const gridOptions: VxeTableGridOptions = {
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) => {
-        message.success(`Query params: ${JSON.stringify(formValues)}`);
-        // return await getExampleTableApi({
-        //   page: page.currentPage,
-        //   pageSize: page.pageSize,
-        //   ...formValues,
-        // });
+        return await getAllUsers({
+          page: page.currentPage,
+          pageSize: page.pageSize,
+          ...formValues,
+        });
       },
     },
   },
