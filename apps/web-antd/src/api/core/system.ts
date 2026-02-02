@@ -16,3 +16,24 @@ export async function getAllRoles(params: any) {
     params,
   });
 }
+
+/**
+ * 创建角色
+ */
+export async function createRole(data: any) {
+  return requestClient.post('/role', data);
+}
+
+/**
+ * 更新角色
+ */
+export async function updateRole(id: number, data: any) {
+  return requestClient.put(`/role/${id}`, data);
+}
+
+/**
+ * 删除角色
+ */
+export async function deleteRole(id: number) {
+  return requestClient.delete(`/role/${id}`);
+}
