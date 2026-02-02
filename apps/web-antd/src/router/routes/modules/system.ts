@@ -23,7 +23,7 @@ const routes: RouteRecordRaw[] = [
       {
         name: 'User',
         path: '/user',
-        component: () => import('#/views/System/User/index.vue'),
+        component: () => import('#/views/System/user/list.vue'),
         meta: {
           icon: 'carbon:workspace',
           title: '用户管理',
