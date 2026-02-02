@@ -15,3 +15,10 @@ export async function getUserInfoApi() {
 export async function updateUserApi(id: number, data: any) {
   return requestClient.put(`/user/${id}`, data);
 }
+
+/**
+ * 删除用户
+ */
+export async function deleteUserApi(id: number) {
+  return requestClient.delete(`/user/${id}`);
+}

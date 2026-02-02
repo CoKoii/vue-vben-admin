@@ -16,18 +16,6 @@ export function useFormSchema(): VbenFormSchema[] {
       rules: 'required',
     },
     {
-      component: 'InputPassword',
-      fieldName: 'password',
-      label: '用户密码',
-      rules: 'required',
-    },
-    {
-      component: 'InputPassword',
-      fieldName: 'confirmPassword',
-      label: '确认密码',
-      rules: 'required',
-    },
-    {
       component: 'ApiSelect',
       componentProps: {
         style: { width: '100%' },
@@ -59,9 +47,7 @@ export function useFormSchema(): VbenFormSchema[] {
 export function useColumns(): VxeTableGridOptions['columns'] {
   return [
     { title: '序号', type: 'seq', width: 50 },
-    { type: 'checkbox', width: 50, align: 'center' },
     { field: 'username', title: '用户名称' },
-    { field: 'password', title: '用户密码' },
     {
       field: 'roles',
       title: '用户角色',

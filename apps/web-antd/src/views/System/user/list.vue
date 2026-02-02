@@ -2,13 +2,12 @@
 import { ref } from 'vue';
 
 import { Page } from '@vben/common-ui';
-import { Plus } from '@vben/icons';
 
 import { Button, message, Modal, Tag } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { registerApi, updateUserApi } from '#/api';
-import { deleteRole, getAllUsers } from '#/api/core/system';
+import { deleteUserApi, registerApi, updateUserApi } from '#/api';
+import { getAllUsers } from '#/api/core/system';
 
 import { useColumns, useGridFormSchema } from './data';
 import UserForm from './modules/form.vue';
@@ -42,7 +41,6 @@ const [Grid, gridApi] = useVbenVxeGrid({
   },
 });
 
-const handleCreate = () => userFormRef.value?.open();
 const handleEdit = (row: any) => {
   const formData = {
     ...row,
@@ -62,7 +60,7 @@ const handleDelete = (row: any) => {
     okText: '确定',
     cancelText: '取消',
     onOk: async () => {
-      await deleteRole(row.id);
+      await deleteUserApi(row.id);
       message.success('删除成功');
       await gridApi.grid?.commitProxy('query');
     },
@@ -73,12 +71,7 @@ const handleDelete = (row: any) => {
 <template>
   <Page auto-content-height>
     <Grid table-title="用户管理">
-      <template #toolbar-tools>
-        <Button type="primary" @click="handleCreate">
-          <Plus class="size-5" />
-          新建用户
-        </Button>
-      </template>
+      <template #toolbar-tools> </template>
       <template #roles="{ row }">
         <Tag
           v-for="role in row.roles"
