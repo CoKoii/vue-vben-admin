@@ -8,3 +8,11 @@ export async function getAllUsers(params: any) {
     params,
   });
 }
+/**
+ * 获取角色列表
+ */
+export async function getAllRoles(params: any) {
+  return requestClient.get('/role', {
+    params,
+  });
+}

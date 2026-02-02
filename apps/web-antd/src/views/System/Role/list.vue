@@ -5,7 +5,7 @@ import { Plus } from '@vben/icons';
 import { Button, message, Modal } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { getAllUsers } from '#/api/core/system';
+import { getAllRoles } from '#/api/core/system';
 
 import { useColumns, useGridFormSchema } from './data';
 
@@ -21,7 +21,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
     proxyConfig: {
       ajax: {
         query: async ({ page }: any, formValues: any) => {
-          return await getAllUsers({
+          return await getAllRoles({
             page: page.currentPage,
             pageSize: page.pageSize,
             ...formValues,
