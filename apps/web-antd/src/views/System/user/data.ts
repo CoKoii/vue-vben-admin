@@ -4,14 +4,14 @@ import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import { getAllRoles } from '#/api/core/system';
 
 export function useGridFormSchema(): VbenFormSchema[] {
-  return [{ component: 'Input', fieldName: 'username', label: '用户名称' }];
+  return [{ component: 'Input', fieldName: 'nickname', label: '用户名称' }];
 }
 
 export function useFormSchema(): VbenFormSchema[] {
   return [
     {
       component: 'Input',
-      fieldName: 'username',
+      fieldName: 'profile.nickname',
       label: '用户名称',
       rules: 'required',
     },
@@ -37,7 +37,8 @@ export function useFormSchema(): VbenFormSchema[] {
 export function useColumns(): VxeTableGridOptions['columns'] {
   return [
     { title: '序号', type: 'seq', width: 50 },
-    { field: 'username', title: '用户名称' },
+    { field: 'username', title: '账户' },
+    { field: 'profile.nickname', title: '用户名称' },
     {
       field: 'roles',
       title: '用户角色',

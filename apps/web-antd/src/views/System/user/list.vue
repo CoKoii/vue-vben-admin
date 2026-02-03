@@ -22,12 +22,13 @@ const [Grid, gridApi] = useVbenVxeGrid({
     keepSource: true,
     proxyConfig: {
       ajax: {
-        query: async ({ page }: any, formValues: any) =>
-          await getAllUsers({
+        query: async ({ page }: any, formValues: any) => {
+          return await getAllUsers({
             page: page.currentPage,
             pageSize: page.pageSize,
             ...formValues,
-          }),
+          });
+        },
       },
     },
     toolbarConfig: {
