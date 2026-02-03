@@ -5,7 +5,7 @@ export function useFormSchema(): VbenFormSchema[] {
   return [
     {
       component: 'Input',
-      fieldName: 'roleName',
+      fieldName: 'code',
       label: '权限码名称',
       rules: 'required',
     },
@@ -14,14 +14,13 @@ export function useFormSchema(): VbenFormSchema[] {
 }
 
 export function useGridFormSchema(): VbenFormSchema[] {
-  return [{ component: 'Input', fieldName: 'roleName', label: '权限码名称' }];
+  return [{ component: 'Input', fieldName: 'code', label: '权限码名称' }];
 }
 
 export function useColumns(): VxeTableGridOptions['columns'] {
   return [
     { title: '序号', type: 'seq', width: 50 },
-    { type: 'checkbox', width: 50, align: 'center' },
-    { field: 'roleName', title: '权限码名称' },
+    { field: 'code', title: '权限码名称' },
     { field: 'description', title: '权限码描述' },
     {
       field: 'status',

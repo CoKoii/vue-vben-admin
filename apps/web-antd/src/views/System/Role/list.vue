@@ -4,7 +4,7 @@ import { ref } from 'vue';
 import { Page } from '@vben/common-ui';
 import { Plus } from '@vben/icons';
 
-import { Button, message, Modal, Switch } from 'ant-design-vue';
+import { Button, message, Modal, Switch, Tag } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { createRole, getAllRoles, updateRole } from '#/api/core/system';
@@ -43,7 +43,20 @@ const [Grid, gridApi] = useVbenVxeGrid({
 });
 
 const handleCreate = () => roleFormRef.value?.open();
-const handleEdit = (row: any) => roleFormRef.value?.open(row);
+// const handleEdit = (row: any) => {
+//   const formData = {
+//     ...row,
+//     roles: row.roles?.map((role: any) => role.id) || [],
+//   };
+//   userFormRef.value?.open(formData);
+// };
+const handleEdit = (row: any) => {
+  const formData = {
+    ...row,
+    permissions: row.permissions?.map((permission: any) => permission.id) || [],
+  };
+  roleFormRef.value?.open(formData);
+};
 const handleSubmit = async (values: any) => {
   await (values.id ? updateRole(values.id, values) : createRole(values));
   message.success(values.id ? '更新成功' : '创建成功');
@@ -77,6 +90,21 @@ const chanceStatus = async (row: any) => {
           <Plus class="size-5" />
           新建角色
         </Button>
+      </template>
+      <template #permissions="{ row }">
+        <Tag
+          v-for="permission in row.permissions"
+          style="margin-bottom: 0"
+          :style="{
+            textDecoration: permission.status ? 'none' : 'line-through',
+          }"
+          :key="permission.id"
+          class="mb-2 mr-2"
+          :bordered="permission.status"
+          :color="permission.status ? 'blue' : 'default'"
+        >
+          {{ permission.code }}
+        </Tag>
       </template>
       <template #status="{ row }">
         <Switch

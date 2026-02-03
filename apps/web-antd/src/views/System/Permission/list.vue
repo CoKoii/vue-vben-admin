@@ -7,12 +7,16 @@ import { Plus } from '@vben/icons';
 import { Button, message, Modal, Switch } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { createRole, getAllRoles, updateRole } from '#/api/core/system';
+import {
+  createPermission,
+  getAllPermissions,
+  updatePermission,
+} from '#/api/core/system';
 
 import { useColumns, useGridFormSchema } from './data';
-import RoleForm from './modules/form.vue';
+import PermissionForm from './modules/form.vue';
 
-const roleFormRef = ref();
+const permissionFormRef = ref();
 const loadingStates = ref<Record<number, boolean>>({});
 
 const [Grid, gridApi] = useVbenVxeGrid({
@@ -24,7 +28,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
     proxyConfig: {
       ajax: {
         query: async ({ page }: any, formValues: any) =>
-          await getAllRoles({
+          await getAllPermissions({
             page: page.currentPage,
             pageSize: page.pageSize,
             ...formValues,
@@ -42,23 +46,25 @@ const [Grid, gridApi] = useVbenVxeGrid({
   },
 });
 
-const handleCreate = () => roleFormRef.value?.open();
-const handleEdit = (row: any) => roleFormRef.value?.open(row);
+const handleCreate = () => permissionFormRef.value?.open();
+const handleEdit = (row: any) => permissionFormRef.value?.open(row);
 const handleSubmit = async (values: any) => {
-  await (values.id ? updateRole(values.id, values) : createRole(values));
+  await (values.id
+    ? updatePermission(values.id, values)
+    : createPermission(values));
   message.success(values.id ? '更新成功' : '创建成功');
   await gridApi.grid?.commitProxy('query');
 };
 const chanceStatus = async (row: any) => {
   Modal.confirm({
     title: '确认操作',
-    content: `确定要${row.status ? '禁用' : '启用'}角色 "${row.roleName}" 吗？`,
+    content: `确定要${row.status ? '禁用' : '启用'}权限码 "${row.code}" 吗？`,
     okText: '确定',
     cancelText: '取消',
     onOk: async () => {
       loadingStates.value[row.id] = true;
       try {
-        await updateRole(row.id, { status: !row.status });
+        await updatePermission(row.id, { status: !row.status });
         message.success('状态更新成功');
         await gridApi.grid?.commitProxy('query');
       } finally {
@@ -91,6 +97,6 @@ const chanceStatus = async (row: any) => {
         <Button type="link" size="small" @click="handleEdit(row)">编辑</Button>
       </template>
     </Grid>
-    <RoleForm ref="roleFormRef" :on-submit="handleSubmit" />
+    <PermissionForm ref="permissionFormRef" :on-submit="handleSubmit" />
   </Page>
 </template>

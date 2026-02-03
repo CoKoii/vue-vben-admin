@@ -87,6 +87,23 @@ const handleDelete = (row: any) => {
           {{ role.roleName }}
         </Tag>
       </template>
+      <template #permissions="{ row }">
+        <template v-for="role in row.roles" :key="role.id">
+          <Tag
+            v-for="permission in role.permissions"
+            style="margin-bottom: 0"
+            :style="{
+              textDecoration: permission.status ? 'none' : 'line-through',
+            }"
+            :key="`${role.id}-${permission.id}`"
+            class="mb-2 mr-2"
+            :bordered="permission.status"
+            :color="permission.status ? 'blue' : 'default'"
+          >
+            {{ permission.code }}
+          </Tag>
+        </template>
+      </template>
       <template #action="{ row }">
         <Button type="link" size="small" @click="handleEdit(row)">编辑</Button>
         <Button type="link" danger size="small" @click="handleDelete(row)">

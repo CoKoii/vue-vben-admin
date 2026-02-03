@@ -19,7 +19,7 @@ export function useFormSchema(): VbenFormSchema[] {
       component: 'ApiSelect',
       componentProps: {
         style: { width: '100%' },
-        api: () => getAllRoles({}),
+        api: getAllRoles,
         resultField: 'items',
         labelField: 'roleName',
         valueField: 'id',
@@ -30,7 +30,6 @@ export function useFormSchema(): VbenFormSchema[] {
       },
       fieldName: 'roles',
       label: '用户角色',
-      rules: 'required',
     },
   ];
 }
@@ -43,6 +42,11 @@ export function useColumns(): VxeTableGridOptions['columns'] {
       field: 'roles',
       title: '用户角色',
       slots: { default: 'roles' },
+    },
+    {
+      field: 'permissions',
+      title: '用户权限',
+      slots: { default: 'permissions' },
     },
     {
       title: '操作',

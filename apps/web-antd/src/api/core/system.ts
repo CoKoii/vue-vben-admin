@@ -30,3 +30,25 @@ export async function createRole(data: any) {
 export async function updateRole(id: number, data: any) {
   return requestClient.put(`/role/${id}`, data);
 }
+
+/**
+ * 创建权限码
+ */
+export async function createPermission(data: any) {
+  return requestClient.post('/permission', data);
+}
+
+/**
+ * 获取权限码列表
+ */
+export async function getAllPermissions(params: any) {
+  return requestClient.get('/permission', {
+    params,
+  });
+}
+/**
+ * 更新权限码
+ */
+export async function updatePermission(id: number, data: any) {
+  return requestClient.put(`/permission/${id}`, data);
+}
