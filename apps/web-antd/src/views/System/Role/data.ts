@@ -38,7 +38,6 @@ export function useGridFormSchema(): VbenFormSchema[] {
 export function useColumns(): VxeTableGridOptions['columns'] {
   return [
     { title: '序号', type: 'seq', width: 50 },
-    { type: 'checkbox', width: 50, align: 'center' },
     { field: 'roleName', title: '角色名称' },
     { field: 'description', title: '角色描述' },
     {
