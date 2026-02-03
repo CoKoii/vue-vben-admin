@@ -4,20 +4,16 @@ import { ref } from 'vue';
 import { Page } from '@vben/common-ui';
 import { Plus } from '@vben/icons';
 
-import { Button, message, Modal } from 'ant-design-vue';
+import { Button, message, Modal, Switch } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import {
-  createRole,
-  deleteRole,
-  getAllRoles,
-  updateRole,
-} from '#/api/core/system';
+import { createRole, getAllRoles, updateRole } from '#/api/core/system';
 
 import { useColumns, useGridFormSchema } from './data';
 import RoleForm from './modules/form.vue';
 
 const roleFormRef = ref();
+const loadingStates = ref<Record<number, boolean>>({});
 
 const [Grid, gridApi] = useVbenVxeGrid({
   formOptions: { schema: useGridFormSchema(), submitOnChange: true },
@@ -53,16 +49,21 @@ const handleSubmit = async (values: any) => {
   message.success(values.id ? '更新成功' : '创建成功');
   await gridApi.grid?.commitProxy('query');
 };
-const handleDelete = (row: any) => {
+const chanceStatus = async (row: any) => {
   Modal.confirm({
-    title: '确认删除',
-    content: `确定要删除角色 "${row.roleName}" 吗？`,
+    title: '确认操作',
+    content: `确定要${row.status ? '禁用' : '启用'}角色 "${row.roleName}" 吗？`,
     okText: '确定',
     cancelText: '取消',
     onOk: async () => {
-      await deleteRole(row.id);
-      message.success('删除成功');
-      await gridApi.grid?.commitProxy('query');
+      loadingStates.value[row.id] = true;
+      try {
+        await updateRole(row.id, { status: !row.status });
+        message.success('状态更新成功');
+        await gridApi.grid?.commitProxy('query');
+      } finally {
+        loadingStates.value[row.id] = false;
+      }
     },
   });
 };
@@ -77,11 +78,17 @@ const handleDelete = (row: any) => {
           新建角色
         </Button>
       </template>
+      <template #status="{ row }">
+        <Switch
+          :checked="row.status"
+          :loading="loadingStates[row.id]"
+          checked-children="启用"
+          un-checked-children="禁用"
+          @change="() => chanceStatus(row)"
+        />
+      </template>
       <template #action="{ row }">
         <Button type="link" size="small" @click="handleEdit(row)">编辑</Button>
-        <Button type="link" danger size="small" @click="handleDelete(row)">
-          删除
-        </Button>
       </template>
     </Grid>
     <RoleForm ref="roleFormRef" :on-submit="handleSubmit" />

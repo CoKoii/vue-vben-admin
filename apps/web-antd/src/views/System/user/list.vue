@@ -76,9 +76,13 @@ const handleDelete = (row: any) => {
         <Tag
           v-for="role in row.roles"
           style="margin-bottom: 0"
-          :key="role"
+          :style="{
+            textDecoration: role.status ? 'none' : 'line-through',
+          }"
+          :key="role.id"
           class="mb-2 mr-2"
-          color="blue"
+          :bordered="role.status"
+          :color="role.status ? 'blue' : 'default'"
         >
           {{ role.roleName }}
         </Tag>

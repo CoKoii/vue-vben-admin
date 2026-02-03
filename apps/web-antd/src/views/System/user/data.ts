@@ -19,8 +19,7 @@ export function useFormSchema(): VbenFormSchema[] {
       component: 'ApiSelect',
       componentProps: {
         style: { width: '100%' },
-        api: getAllRoles,
-        params: { page: 1, pageSize: 1000 },
+        api: () => getAllRoles({}),
         resultField: 'items',
         labelField: 'roleName',
         valueField: 'id',
@@ -32,14 +31,6 @@ export function useFormSchema(): VbenFormSchema[] {
       fieldName: 'roles',
       label: '用户角色',
       rules: 'required',
-    },
-    {
-      component: 'Checkbox',
-      fieldName: 'agreePolicy',
-      label: '我已阅读并同意用户协议和隐私政策',
-      rules: 'requiredTrue',
-      defaultValue: true,
-      hide: true,
     },
   ];
 }

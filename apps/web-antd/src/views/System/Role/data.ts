@@ -24,6 +24,11 @@ export function useColumns(): VxeTableGridOptions['columns'] {
     { field: 'roleName', title: '角色名称' },
     { field: 'description', title: '角色描述' },
     {
+      field: 'status',
+      title: '角色状态',
+      slots: { default: 'status' },
+    },
+    {
       title: '操作',
       width: 150,
       align: 'center',
