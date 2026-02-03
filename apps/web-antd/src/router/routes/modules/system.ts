@@ -16,7 +16,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('#/views/System/Permission/list.vue'),
         meta: {
           icon: 'lucide:area-chart',
-          title: '权限管理',
+          title: '权限码管理',
         },
       },
       {

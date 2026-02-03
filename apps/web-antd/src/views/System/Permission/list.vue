@@ -71,11 +71,11 @@ const chanceStatus = async (row: any) => {
 
 <template>
   <Page auto-content-height>
-    <Grid table-title="角色管理">
+    <Grid table-title="权限码管理">
       <template #toolbar-tools>
         <Button type="primary" @click="handleCreate">
           <Plus class="size-5" />
-          新建角色
+          新建权限码
         </Button>
       </template>
       <template #status="{ row }">

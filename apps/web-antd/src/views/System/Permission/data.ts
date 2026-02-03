@@ -6,26 +6,26 @@ export function useFormSchema(): VbenFormSchema[] {
     {
       component: 'Input',
       fieldName: 'roleName',
-      label: '角色名称',
+      label: '权限码名称',
       rules: 'required',
     },
-    { component: 'Textarea', fieldName: 'description', label: '角色描述' },
+    { component: 'Textarea', fieldName: 'description', label: '权限码描述' },
   ];
 }
 
 export function useGridFormSchema(): VbenFormSchema[] {
-  return [{ component: 'Input', fieldName: 'roleName', label: '角色名称' }];
+  return [{ component: 'Input', fieldName: 'roleName', label: '权限码名称' }];
 }
 
 export function useColumns(): VxeTableGridOptions['columns'] {
   return [
     { title: '序号', type: 'seq', width: 50 },
     { type: 'checkbox', width: 50, align: 'center' },
-    { field: 'roleName', title: '角色名称' },
-    { field: 'description', title: '角色描述' },
+    { field: 'roleName', title: '权限码名称' },
+    { field: 'description', title: '权限码描述' },
     {
       field: 'status',
-      title: '角色状态',
+      title: '权限码状态',
       slots: { default: 'status' },
     },
     {
