@@ -11,11 +11,19 @@ const routes: RouteRecordRaw[] = [
     path: '/system',
     children: [
       {
+        name: 'Permission',
+        path: '/permission',
+        component: () => import('#/views/System/Permission/list.vue'),
+        meta: {
+          icon: 'lucide:area-chart',
+          title: '权限管理',
+        },
+      },
+      {
         name: 'Role',
         path: '/role',
         component: () => import('#/views/System/Role/list.vue'),
         meta: {
-          affixTab: true,
           icon: 'lucide:area-chart',
           title: '角色管理',
         },
