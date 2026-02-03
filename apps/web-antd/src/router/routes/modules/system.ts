@@ -15,7 +15,7 @@ const routes: RouteRecordRaw[] = [
         path: '/permission',
         component: () => import('#/views/System/Permission/list.vue'),
         meta: {
-          icon: 'lucide:area-chart',
+          icon: 'icon-park-outline:permissions',
           title: '权限码管理',
         },
       },
@@ -24,7 +24,7 @@ const routes: RouteRecordRaw[] = [
         path: '/role',
         component: () => import('#/views/System/Role/list.vue'),
         meta: {
-          icon: 'lucide:area-chart',
+          icon: 'eos-icons:role-binding',
           title: '角色管理',
         },
       },
@@ -33,7 +33,7 @@ const routes: RouteRecordRaw[] = [
         path: '/user',
         component: () => import('#/views/System/User/list.vue'),
         meta: {
-          icon: 'carbon:workspace',
+          icon: 'ri:user-3-line',
           title: '用户管理',
         },
       },
