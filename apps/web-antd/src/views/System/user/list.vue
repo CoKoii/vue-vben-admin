@@ -14,6 +14,25 @@ import UserForm from './modules/form.vue';
 
 const userFormRef = ref();
 
+const getUniquePermissions = (roles: any[]) => {
+  const permissionMap = new Map();
+
+  roles?.forEach((role) => {
+    role.permissions?.forEach((permission: any) => {
+      const existing = permissionMap.get(permission.id);
+      const isEnabled = permission.status && role.status;
+
+      if (!existing) {
+        permissionMap.set(permission.id, { ...permission, enabled: isEnabled });
+      } else if (isEnabled && !existing.enabled) {
+        existing.enabled = true;
+      }
+    });
+  });
+
+  return [...permissionMap.values()];
+};
+
 const [Grid, gridApi] = useVbenVxeGrid({
   formOptions: { schema: useGridFormSchema(), submitOnChange: true },
   gridOptions: {
@@ -89,21 +108,19 @@ const handleDelete = (row: any) => {
         </Tag>
       </template>
       <template #permissions="{ row }">
-        <template v-for="role in row.roles" :key="role.id">
-          <Tag
-            v-for="permission in role.permissions"
-            style="margin-bottom: 0"
-            :style="{
-              textDecoration: permission.status ? 'none' : 'line-through',
-            }"
-            :key="`${role.id}-${permission.id}`"
-            class="mb-2 mr-2"
-            :bordered="permission.status"
-            :color="permission.status ? 'blue' : 'default'"
-          >
-            {{ permission.code }}
-          </Tag>
-        </template>
+        <Tag
+          v-for="permission in getUniquePermissions(row.roles)"
+          style="margin-bottom: 0"
+          :style="{
+            textDecoration: permission.enabled ? 'none' : 'line-through',
+          }"
+          :key="permission.id"
+          class="mb-2 mr-2"
+          :bordered="permission.enabled"
+          :color="permission.enabled ? 'blue' : 'default'"
+        >
+          {{ permission.code }}
+        </Tag>
       </template>
       <template #action="{ row }">
         <Button type="link" size="small" @click="handleEdit(row)">编辑</Button>
