@@ -49,7 +49,7 @@ export async function logoutApi() {
  * 获取用户权限码
  */
 export async function getAccessCodesApi() {
-  return requestClient.get<string[]>('/permission/token');
+  return requestClient.get<string[]>('/permissions/me');
 }
 
 /**
