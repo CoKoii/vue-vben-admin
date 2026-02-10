@@ -40,6 +40,11 @@ export function useColumns(): VxeTableGridOptions['columns'] {
     { field: 'username', title: '账户' },
     { field: 'profile.nickname', title: '用户名称' },
     {
+      field: 'status',
+      title: '账户状态',
+      slots: { default: 'status' },
+    },
+    {
       field: 'roles',
       title: '用户角色',
       slots: { default: 'roles' },

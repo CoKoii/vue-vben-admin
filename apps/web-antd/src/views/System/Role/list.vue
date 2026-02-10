@@ -62,7 +62,7 @@ const handleSubmit = async (values: any) => {
   message.success(values.id ? '更新成功' : '创建成功');
   await gridApi.grid?.commitProxy('query');
 };
-const chanceStatus = async (row: any) => {
+const changeStatus = async (row: any) => {
   Modal.confirm({
     title: '确认操作',
     content: `确定要${row.status ? '禁用' : '启用'}角色 "${row.roleName}" 吗？`,
@@ -112,7 +112,7 @@ const chanceStatus = async (row: any) => {
           :loading="loadingStates[row.id]"
           checked-children="启用"
           un-checked-children="禁用"
-          @change="() => chanceStatus(row)"
+          @change="() => changeStatus(row)"
         />
       </template>
       <template #action="{ row }">

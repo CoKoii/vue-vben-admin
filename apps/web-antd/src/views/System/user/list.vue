@@ -3,7 +3,7 @@ import { ref } from 'vue';
 
 import { Page } from '@vben/common-ui';
 
-import { Button, message, Modal, Tag } from 'ant-design-vue';
+import { Button, message, Modal, Switch, Tag } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { deleteUserApi, registerApi, updateUserApi } from '#/api';
@@ -14,6 +14,7 @@ import UserForm from './modules/form.vue';
 
 const userFormRef = ref();
 
+const loadingStates = ref<Record<number, boolean>>({});
 const getUniquePermissions = (roles: any[]) => {
   const permissionMap = new Map();
 
@@ -86,6 +87,25 @@ const handleDelete = (row: any) => {
     },
   });
 };
+const changeStatus = async (row: any) => {
+  console.warn('changeStatus', row);
+  Modal.confirm({
+    title: '确认操作',
+    content: `确定要${row.status ? '禁用' : '启用'}用户 "${row.username}" 吗？`,
+    okText: '确定',
+    cancelText: '取消',
+    onOk: async () => {
+      loadingStates.value[row.id] = true;
+      try {
+        await updateUserApi(row.id, { status: !row.status });
+        message.success('状态更新成功');
+        await gridApi.grid?.commitProxy('query');
+      } finally {
+        loadingStates.value[row.id] = false;
+      }
+    },
+  });
+};
 </script>
 
 <template>
@@ -121,6 +141,15 @@ const handleDelete = (row: any) => {
         >
           {{ permission.code }}
         </Tag>
+      </template>
+      <template #status="{ row }">
+        <Switch
+          :checked="row.status"
+          :loading="loadingStates[row.id]"
+          checked-children="启用"
+          un-checked-children="禁用"
+          @change="() => changeStatus(row)"
+        />
       </template>
       <template #action="{ row }">
         <Button type="link" size="small" @click="handleEdit(row)">编辑</Button>
