@@ -13,22 +13,22 @@ import {
   updatePermission,
 } from '#/api/core/system';
 
-import { useColumns, useGridFormSchema } from './data';
-import PermissionForm from './modules/form.vue';
+import { searchSchema, tableColumns } from './data';
+import FormModal from './modules/form.vue';
 
-const permissionFormRef = ref();
+const formModalRef = ref();
 const loadingStates = ref<Record<number, boolean>>({});
 
 const [Grid, gridApi] = useVbenVxeGrid({
-  formOptions: { schema: useGridFormSchema(), submitOnChange: true },
+  formOptions: { schema: searchSchema, submitOnChange: true },
   gridOptions: {
-    columns: useColumns(),
+    columns: tableColumns,
     height: 'auto',
     keepSource: true,
     proxyConfig: {
       ajax: {
-        query: async ({ page }: any, formValues: any) =>
-          await getAllPermissions({
+        query: ({ page }: any, formValues: any) =>
+          getAllPermissions({
             page: page.currentPage,
             pageSize: page.pageSize,
             ...formValues,
@@ -46,16 +46,20 @@ const [Grid, gridApi] = useVbenVxeGrid({
   },
 });
 
-const handleCreate = () => permissionFormRef.value?.open();
-const handleEdit = (row: any) => permissionFormRef.value?.open(row);
+const handleCreate = () => formModalRef.value?.open();
+const handleEdit = (row: any) => formModalRef.value?.open(row);
+
+const refreshGrid = () => gridApi.grid?.commitProxy('query');
+
 const handleSubmit = async (values: any) => {
   await (values.id
     ? updatePermission(values.id, values)
     : createPermission(values));
   message.success(values.id ? '更新成功' : '创建成功');
-  await gridApi.grid?.commitProxy('query');
+  await refreshGrid();
 };
-const chanceStatus = async (row: any) => {
+
+const changeStatus = (row: any) => {
   Modal.confirm({
     title: '确认操作',
     content: `确定要${row.status ? '禁用' : '启用'}权限码 "${row.code}" 吗？`,
@@ -66,7 +70,7 @@ const chanceStatus = async (row: any) => {
       try {
         await updatePermission(row.id, { status: !row.status });
         message.success('状态更新成功');
-        await gridApi.grid?.commitProxy('query');
+        await refreshGrid();
       } finally {
         loadingStates.value[row.id] = false;
       }
@@ -90,13 +94,13 @@ const chanceStatus = async (row: any) => {
           :loading="loadingStates[row.id]"
           checked-children="启用"
           un-checked-children="禁用"
-          @change="() => chanceStatus(row)"
+          @change="changeStatus(row)"
         />
       </template>
       <template #action="{ row }">
         <Button type="link" size="small" @click="handleEdit(row)">编辑</Button>
       </template>
     </Grid>
-    <PermissionForm ref="permissionFormRef" :on-submit="handleSubmit" />
+    <FormModal ref="formModalRef" :on-submit="handleSubmit" />
   </Page>
 </template>

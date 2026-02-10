@@ -5,13 +5,12 @@ import { useVbenModal } from '@vben/common-ui';
 
 import { useVbenForm } from '#/adapter/form';
 
-import { useFormSchema } from '../data';
+import { editFormSchema } from '../data';
 
 const props = defineProps<{
   onSubmit: (values: any) => Promise<void>;
 }>();
 
-const isEdit = ref(false);
 const editData = ref<any>(null);
 
 const [Form, formApi] = useVbenForm({
@@ -20,7 +19,7 @@ const [Form, formApi] = useVbenForm({
       autocomplete: 'off',
     },
   },
-  schema: useFormSchema(),
+  schema: editFormSchema,
   showDefaultActions: false,
 });
 
@@ -43,18 +42,17 @@ const [Modal, modalApi] = useVbenModal({
     await formApi.resetForm();
 
     if (editData.value) {
-      isEdit.value = true;
       await formApi.setValues(editData.value);
-    } else {
-      isEdit.value = false;
     }
   },
 });
 
-const modalTitle = computed(() => (isEdit.value ? '编辑角色' : '新建角色'));
+const modalTitle = computed(() =>
+  editData.value ? '编辑权限码' : '新建权限码',
+);
 
 function open(data?: any) {
-  editData.value = data;
+  editData.value = data ?? null;
   modalApi.open();
 }
 
