@@ -50,6 +50,20 @@ export function useColumns(): VxeTableGridOptions['columns'] {
       slots: { default: 'permissions' },
     },
     {
+      field: 'createdAt',
+      title: '创建时间',
+      width: 180,
+      formatter: ({ cellValue }) =>
+        cellValue && new Date(cellValue).toLocaleString(),
+    },
+    {
+      field: 'updatedAt',
+      title: '最后修改时间',
+      width: 180,
+      formatter: ({ cellValue }) =>
+        cellValue && new Date(cellValue).toLocaleString(),
+    },
+    {
       title: '操作',
       width: 150,
       align: 'center',
