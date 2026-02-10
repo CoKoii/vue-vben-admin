@@ -6,7 +6,7 @@ import { Page } from '@vben/common-ui';
 import { Button, message, Modal, Switch, Tag } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { deleteUserApi, registerApi, updateUserApi } from '#/api';
+import { registerApi, updateUserApi } from '#/api';
 import { getAllUsers } from '#/api/core/system';
 
 import { useColumns, useGridFormSchema } from './data';
@@ -74,19 +74,7 @@ const handleSubmit = async (values: any) => {
   message.success(values.id ? '更新成功' : '创建成功');
   await gridApi.grid?.commitProxy('query');
 };
-const handleDelete = (row: any) => {
-  Modal.confirm({
-    title: '确认删除',
-    content: `确定要删除用户 "${row.username}" 吗？`,
-    okText: '确定',
-    cancelText: '取消',
-    onOk: async () => {
-      await deleteUserApi(row.id);
-      message.success('删除成功');
-      await gridApi.grid?.commitProxy('query');
-    },
-  });
-};
+
 const changeStatus = async (row: any) => {
   console.warn('changeStatus', row);
   Modal.confirm({
@@ -153,9 +141,6 @@ const changeStatus = async (row: any) => {
       </template>
       <template #action="{ row }">
         <Button type="link" size="small" @click="handleEdit(row)">编辑</Button>
-        <Button type="link" danger size="small" @click="handleDelete(row)">
-          删除
-        </Button>
       </template>
     </Grid>
     <UserForm ref="userFormRef" :on-submit="handleSubmit" />
