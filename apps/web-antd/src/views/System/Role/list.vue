@@ -43,13 +43,6 @@ const [Grid, gridApi] = useVbenVxeGrid({
 });
 
 const handleCreate = () => roleFormRef.value?.open();
-// const handleEdit = (row: any) => {
-//   const formData = {
-//     ...row,
-//     roles: row.roles?.map((role: any) => role.id) || [],
-//   };
-//   userFormRef.value?.open(formData);
-// };
 const handleEdit = (row: any) => {
   const formData = {
     ...row,
