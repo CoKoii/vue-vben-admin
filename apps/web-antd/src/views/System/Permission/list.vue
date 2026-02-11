@@ -51,11 +51,9 @@ const handleEdit = (row: any) => formModalRef.value?.open(row);
 
 const refreshGrid = () => gridApi.grid?.commitProxy('query');
 
-const handleSubmit = async (values: any) => {
-  await (values.id
-    ? updatePermission(values.id, values)
-    : createPermission(values));
-  message.success(values.id ? '更新成功' : '创建成功');
+const handleSubmit = async (values: any, id?: number) => {
+  await (id ? updatePermission(id, values) : createPermission(values));
+  message.success(id ? '更新成功' : '创建成功');
   await refreshGrid();
 };
 

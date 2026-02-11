@@ -8,7 +8,7 @@ import { useVbenForm } from '#/adapter/form';
 import { editFormSchema } from '../data';
 
 const props = defineProps<{
-  onSubmit: (values: any) => Promise<void>;
+  onSubmit: (values: any, id?: number) => Promise<void>;
 }>();
 
 const editData = ref<any>(null);
@@ -30,7 +30,7 @@ const [Modal, modalApi] = useVbenModal({
     const values = await formApi.getValues();
     modalApi.lock();
     try {
-      await props.onSubmit({ ...values, id: editData.value?.id });
+      await props.onSubmit(values, editData.value?.id);
       modalApi.close();
     } catch {
       modalApi.unlock();
