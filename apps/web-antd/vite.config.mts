@@ -10,7 +10,7 @@ export default defineConfig(async () => {
             changeOrigin: true,
             rewrite: (path) => path.replace(/^\/api/, '/api/v1'),
             // nestjs后端地址
-            target: 'http://localhost:3000',
+            target: 'https://app.caoki.cn',
             ws: true,
           },
         },
